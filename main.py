@@ -23,12 +23,22 @@ while len(guessed_states) < 50:
         prompt="What's another state's name?"
     )
 
-    # Stop the game if the user clicks Cancel.
+    # If the player clicks Cancel, save the states
+    # that have not been guessed yet and end the game.
     if answer_state is None:
+        missing_states = []
+        for state in all_states:
+            if state not in guessed_states:
+                missing_states.append(state)
+        missing_data = pd.DataFrame(missing_states, columns=["state"])
+        missing_data.to_csv("states_to_learn.csv", index=False)
         break
 
+    # Convert the user's input to title case.
+    # Example: "new york" -> "New York"    
     answer_state = answer_state.title()
-
+    
+    
     # Check that the answer is a valid state 
     # and has not already been guessed.
     if answer_state in all_states and answer_state not in guessed_states:
@@ -46,5 +56,3 @@ while len(guessed_states) < 50:
 
         
 # -------------------- End Game --------------------
-
-screen.exitonclick()
