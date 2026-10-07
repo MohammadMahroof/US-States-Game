@@ -26,10 +26,7 @@ while len(guessed_states) < 50:
     # If the player clicks Cancel, save the states
     # that have not been guessed yet and end the game.
     if answer_state is None:
-        missing_states = []
-        for state in all_states:
-            if state not in guessed_states:
-                missing_states.append(state)
+        missing_states = [state for state in all_states if state not in guessed_states]
         missing_data = pd.DataFrame(missing_states, columns=["state"])
         missing_data.to_csv("states_to_learn.csv", index=False)
         break
